@@ -19,7 +19,8 @@ class UserFav(models.Model):
     class Meta:
         verbose_name = '用户收藏'
         verbose_name_plural = verbose_name
-        unique_together = ("user", "goods")
+        # 联合唯一索引
+        unique_together = ("user", "goods")  # 一定要migrate，最好清空表
 
     def __str__(self):
         return self.user.username

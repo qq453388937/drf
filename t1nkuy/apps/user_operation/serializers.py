@@ -15,21 +15,25 @@ class UserFavDetailSerializer(serializers.ModelSerializer):
 
 
 class UserFavSerializer(serializers.ModelSerializer):
+
+    # 字段设置为当前用户
     user = serializers.HiddenField(
         default=serializers.CurrentUserDefault()
     )
 
     class Meta:
         model = UserFav
+        # 写到meta 里面很关键！！！！！！！！！！！！！！！！
         validators = [
+            # model 里面也要设置！！！！ 联合唯一索引
             UniqueTogetherValidator(
                 queryset=UserFav.objects.all(),
                 fields=('user', 'goods'),
-                message="已经收藏"
+                message="已经收藏"  # non_filed_erros 组合报错 没法指定某一个字段出错
             )
         ]
 
-        fields = ("user", "goods", "id")
+        fields = ("user", "goods", "id")  # 删除的话需要返回id
 
 
 class LeavingMessageSerializer(serializers.ModelSerializer):

@@ -35,7 +35,7 @@ class GoodsImageSerializer(serializers.ModelSerializer):
 
 class GoodsSerializer(serializers.ModelSerializer):
     category = CategorySerializer()
-    images = GoodsImageSerializer(many=True)  # related_name  相关
+    images = GoodsImageSerializer(many=True)  # related_name  相关  一对多many=True
     class Meta:
         model = Goods
         fields = "__all__"
