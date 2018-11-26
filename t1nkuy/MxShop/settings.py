@@ -93,7 +93,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': "mxshop",
         'USER': 'root',
-        'PASSWORD': "123",
+        'PASSWORD': "12345678",
         'HOST': "127.0.0.1",
         'OPTIONS': {'init_command': 'SET storage_engine=INNODB;'}
     }
@@ -145,7 +145,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.BasicAuthentication',    # 会弹框！！！
         'rest_framework.authentication.SessionAuthentication',
     ),
     # 'DEFAULT_THROTTLE_CLASSES': (
