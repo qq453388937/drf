@@ -65,7 +65,7 @@ class UserRegSerializer(serializers.ModelSerializer):
 
     # write_only 是不会返回前端
     password = serializers.CharField(
-        style={'input_type': 'password'},help_text="密码", label="密码", write_only=True,
+        style={'input_type': 'password'}, help_text="密码", label="密码", write_only=True,
     )
 
     def create(self, validated_data):
