@@ -5,7 +5,7 @@ from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework.authentication import SessionAuthentication
 
 from .models import UserFav, UserLeavingMessage, UserAddress
-from utils.permissions import IsOwnerOrReadOnly
+from utils.permissions import IsOwnerOrReadOnly  # 删除的时候只能删除自己的
 from .serializers import UserFavSerializer, UserFavDetailSerializer, AddressSerializer, LeavingMessageSerializer
 
 
@@ -21,7 +21,7 @@ class UserFavViewset(mixins.CreateModelMixin, mixins.ListModelMixin, mixins.Retr
     """
     permission_classes = (IsAuthenticated, IsOwnerOrReadOnly)
     authentication_classes = (JSONWebTokenAuthentication, SessionAuthentication)
-    lookup_field = "goods_id"
+    lookup_field = "goods_id"  # serializer 里同时设置
 
     def get_queryset(self):
         return UserFav.objects.filter(user=self.request.user)

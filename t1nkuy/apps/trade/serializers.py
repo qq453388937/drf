@@ -20,17 +20,18 @@ class ShopCartSerializer(serializers.Serializer):
     user = serializers.HiddenField(
         default=serializers.CurrentUserDefault()
     )
-    nums = serializers.IntegerField(required=True, label="数量",min_value=1,
+    nums = serializers.IntegerField(required=True, label="数量",min_value=1, # 最小数量
                                     error_messages={
                                         "min_value":"商品数量不能小于一",
                                         "required": "请选择购买数量"
                                     })
+    #                                         核心 如果不是集成 ModelSerializer 的 话 需要 queryset
     goods = serializers.PrimaryKeyRelatedField(required=True, queryset=Goods.objects.all())
 
     def create(self, validated_data):
-        user = self.context["request"].user
+        user = self.context["request"].user   # serializer里不能像view一样直接点出来
         nums = validated_data["nums"]
-        goods = validated_data["goods"]
+        goods = validated_data["goods"]  # 不是good的id而是反序列化为对象
 
         existed = ShoppingCart.objects.filter(user=user, goods=goods)
 
@@ -41,13 +42,14 @@ class ShopCartSerializer(serializers.Serializer):
         else:
             existed = ShoppingCart.objects.create(**validated_data)
 
-        return existed
+        return existed  # 本身操作放这里, 商品数量放ViewSet操作
 
     def update(self, instance, validated_data):
-        #修改商品数量
+        # 修改商品数量
         instance.nums = validated_data["nums"]
         instance.save()
         return instance
+
 
 
 class OrderGoodsSerialzier(serializers.ModelSerializer):

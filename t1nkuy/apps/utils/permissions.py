@@ -17,3 +17,13 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
 
         # Instance must have an attribute named `owner`.
         return obj.user == request.user
+
+
+class IsMyOrReadOnly(permissions.BasePermission):
+
+    def has_object_permission(self, request, view, obj):
+
+        if request.method in permissions.SAFE_METHODS:
+            return True
+
+        return obj.user == request.user  # 是本人返回True
